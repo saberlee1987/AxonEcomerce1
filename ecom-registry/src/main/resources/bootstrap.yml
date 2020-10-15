@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ecom-registry
+  cloud:
+    config:
+      uri: http://localhost:8888
+
