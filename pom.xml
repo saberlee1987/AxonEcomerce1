@@ -9,10 +9,11 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-          <module>ecom-common</module>
-          <module>ecom-registry</module>
+        <module>ecom-common</module>
+        <module>ecom-registry</module>
         <module>ecom-config-server</module>
         <module>ecom-cart</module>
+        <module>ecom-core</module>
     </modules>
 
 

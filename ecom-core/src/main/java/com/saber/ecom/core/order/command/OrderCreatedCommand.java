@@ -1,20 +1,15 @@
-package com.saber.ecom.common.core.order.event;
+package com.saber.ecom.core.order.command;
 
 import com.saber.ecom.common.core.dto.LineItemDto;
 import lombok.*;
-
-import java.util.Date;
 import java.util.List;
+
 @Data
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderCreatedEvent {
-    private Long orderId;
+public class OrderCreatedCommand {
     private String userId;
-    private String orderStatus;
-    private Double total;
-    private Date orderDate;
     private List<LineItemDto> lineItems;
 }
