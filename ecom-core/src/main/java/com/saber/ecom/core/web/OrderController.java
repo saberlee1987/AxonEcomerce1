@@ -9,6 +9,9 @@ import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,21 +27,22 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
     @ResponseBody
-    public OrderCreationStatus createOrder(@RequestBody OrderDto orderDto) {
-        try {
+    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
+//        try {
             OrderCreatedCommand orderCreatedCommand = new OrderCreatedCommand();
             orderCreatedCommand.setUserId(orderDto.getUserId());
             orderCreatedCommand.setLineItems(orderDto.getLineItems());
-            return commandGateway.sendAndWait(orderCreatedCommand);
-        } catch (CommandExecutionException ex) {
-            Throwable e = ex.getCause();
-            log.error("Error while creating new Order ==> {} ", e.getMessage());
-            if (e instanceof OutOfStockException) {
-                return OrderCreationStatus.OUT_OF_STOCK;
-            } else {
-                return OrderCreationStatus.FAILED;
-            }
-        }
+             commandGateway.sendAndWait(orderCreatedCommand);
+             return ResponseEntity.noContent().build();
+//        } catch (CommandExecutionException ex) {
+//            Throwable e = ex.getCause();
+//            log.error("Error while creating new Order ==> {} ", e.getMessage());
+//            if (e instanceof OutOfStockException) {
+//                return OrderCreationStatus.OUT_OF_STOCK;
+//            } else {
+//                return OrderCreationStatus.FAILED;
+//            }
+//        }
     }
 
     @RequestMapping(value = "/{orderId}", method = RequestMethod.DELETE)

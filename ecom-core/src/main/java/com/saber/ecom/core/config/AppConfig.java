@@ -32,8 +32,8 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -42,11 +42,11 @@ import javax.persistence.PersistenceContext;
 import java.util.Collections;
 
 @Configuration
+@RefreshScope
 public class AppConfig {
     @PersistenceContext
     private EntityManager entityManager;
-    @Autowired
-    private PlatformTransactionManager transactionManager;
+    private final PlatformTransactionManager transactionManager;
 
     @Value("${ecom.amqp.rabbit.address}")
     private String rabbitMQAddress;
@@ -66,11 +66,12 @@ public class AppConfig {
     @Value("${ecom.amqp.rabbit.queue}")
     private String rabbitMQQueue;
 
-//    @Value("${spring.data.mongodb.uri}")
-//    private String mongoDdUri;
+    private final Mongo mongo;
 
-    @Autowired
-    private Mongo mongo;
+    public AppConfig(PlatformTransactionManager transactionManager, Mongo mongo) {
+        this.transactionManager = transactionManager;
+        this.mongo = mongo;
+    }
 
 
     @Bean
@@ -153,14 +154,16 @@ public class AppConfig {
 
     @Bean
     public AnnotationEventListenerBeanPostProcessor annotationEventListenerBeanPostProcessor() {
-        AnnotationEventListenerBeanPostProcessor annotationEventListenerBeanPostProcessor = new AnnotationEventListenerBeanPostProcessor();
+        AnnotationEventListenerBeanPostProcessor annotationEventListenerBeanPostProcessor =
+                new AnnotationEventListenerBeanPostProcessor();
         annotationEventListenerBeanPostProcessor.setEventBus(eventBus());
         return annotationEventListenerBeanPostProcessor;
     }
 
     @Bean
     public AnnotationCommandHandlerBeanPostProcessor annotationCommandHandlerBeanPostProcessor() {
-        AnnotationCommandHandlerBeanPostProcessor annotationCommandHandlerBeanPostProcessor = new AnnotationCommandHandlerBeanPostProcessor();
+        AnnotationCommandHandlerBeanPostProcessor annotationCommandHandlerBeanPostProcessor =
+                new AnnotationCommandHandlerBeanPostProcessor();
         annotationCommandHandlerBeanPostProcessor.setCommandBus(commandBus());
         return annotationCommandHandlerBeanPostProcessor;
     }
@@ -200,14 +203,14 @@ public class AppConfig {
         return new SpringResourceInjector();
     }
 
-    @Bean(name = "mongoTemplate")
-    public MongoTemplate mongoTemplate() {
+    @Bean(name = "mongoTemplateAxon")
+    public MongoTemplate defaultMongoTemplate() {
         return new DefaultMongoTemplate(mongo);
     }
 
     @Bean(name = "sagaRepository")
     public SagaRepository sagaRepository() {
-        MongoSagaRepository sagaRepository = new MongoSagaRepository(mongoTemplate());
+        MongoSagaRepository sagaRepository = new MongoSagaRepository(defaultMongoTemplate());
         sagaRepository.setResourceInjector(springResourceInjector());
         return sagaRepository;
     }

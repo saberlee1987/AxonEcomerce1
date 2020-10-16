@@ -29,7 +29,7 @@ public class OrderCommandHandler {
     private Repository<Inventory> inventoryRepository;
 
 
-    @CommandHandler
+    @CommandHandler(commandName = "handleNewOrder")
     public void handleNewOrder(OrderCreatedCommand orderCreatedCommand) {
         Random random = new Random();
         log.debug("OrderCreatedCommand/create new order is executing ====>" + orderCreatedCommand);
@@ -63,7 +63,7 @@ public class OrderCommandHandler {
 
     }
 
-    @CommandHandler
+    @CommandHandler(commandName = "handleOrderCancel")
     public void handleOrderCancel(OrderCancelCommand orderCancelCommand) {
         log.debug("Order Cancelling Command is executing =====>{}", orderCancelCommand.getOrderId());
         Order order = orderRepository.load(orderCancelCommand.getOrderId());
@@ -71,7 +71,7 @@ public class OrderCommandHandler {
         rollbackInventory(order);
     }
 
-    @CommandHandler
+    @CommandHandler(commandName = "handleOrderDeliveryFailure")
     public void handleOrderDeliveryFailure(OrderDeliveryFailureRollbackCommand orderDeliveryFailureRollbackCommand) {
         log.debug("Order delivery failure command is executing ====> {}", orderDeliveryFailureRollbackCommand.getOrderId());
         Order order = orderRepository.load(orderDeliveryFailureRollbackCommand.getOrderId());
