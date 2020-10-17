@@ -1,7 +1,6 @@
 package com.saber.ecom.common.core.dto;
 
 import lombok.*;
-
 import java.io.Serializable;
 @Data
 @EqualsAndHashCode

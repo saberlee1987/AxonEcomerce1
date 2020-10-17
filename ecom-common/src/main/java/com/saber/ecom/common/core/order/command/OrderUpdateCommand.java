@@ -1,4 +1,4 @@
-package com.saber.ecom.core.order.command;
+package com.saber.ecom.common.core.order.command;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderCancelCommand {
+public class OrderUpdateCommand {
     private Long orderId;
-
+    private OrderStatus orderStatus;
 }

@@ -1,6 +1,6 @@
 package com.saber.ecom.core.inventory.command.handler;
 
-import com.saber.ecom.core.inventory.command.InventoryCreatedCommand;
+import com.saber.ecom.common.core.inventory.command.InventoryCreatedCommand;
 import com.saber.ecom.core.inventory.model.Inventory;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.annotation.CommandHandler;

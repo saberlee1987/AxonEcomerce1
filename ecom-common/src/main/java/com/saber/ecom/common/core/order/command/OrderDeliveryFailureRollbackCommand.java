@@ -1,4 +1,4 @@
-package com.saber.ecom.core.order.command;
+package com.saber.ecom.common.core.order.command;
 
 import lombok.*;
 

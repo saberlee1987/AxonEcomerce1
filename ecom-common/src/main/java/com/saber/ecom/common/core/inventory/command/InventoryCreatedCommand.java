@@ -1,4 +1,4 @@
-package com.saber.ecom.core.inventory.command;
+package com.saber.ecom.common.core.inventory.command;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

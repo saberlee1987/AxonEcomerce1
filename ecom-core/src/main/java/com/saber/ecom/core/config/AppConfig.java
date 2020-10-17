@@ -4,6 +4,7 @@ import com.mongodb.Mongo;
 import com.saber.ecom.core.inventory.model.Inventory;
 import com.saber.ecom.core.order.model.Order;
 import com.saber.ecom.core.order.saga.OrderProcessSaga;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -43,6 +44,7 @@ import java.util.Collections;
 
 @Configuration
 @RefreshScope
+@Slf4j
 public class AppConfig {
     @PersistenceContext
     private EntityManager entityManager;

@@ -1,4 +1,4 @@
-package com.saber.ecom.core.order.model;
+package com.saber.ecom.common.core.order.command;
 
 public enum OrderStatus {
     PAID(1),CANCELLED(5),SHIPPED(2),

@@ -1,6 +1,7 @@
 package com.saber.ecom.core.order.model;
 
 import com.saber.ecom.common.core.dto.LineItemDto;
+import com.saber.ecom.common.core.order.command.OrderStatus;
 import com.saber.ecom.common.core.order.event.OrderCancelEvent;
 import com.saber.ecom.common.core.order.event.OrderCreatedEvent;
 import com.saber.ecom.common.core.order.event.OrderUpdateEvent;

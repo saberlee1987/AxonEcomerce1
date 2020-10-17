@@ -1,7 +1,8 @@
-package com.saber.ecom.core.order.command;
+package com.saber.ecom.common.core.order.command;
 
 import com.saber.ecom.common.core.dto.LineItemDto;
 import lombok.*;
+
 import java.util.List;
 
 @Data
