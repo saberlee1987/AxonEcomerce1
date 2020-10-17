@@ -14,6 +14,7 @@
         <module>ecom-config-server</module>
         <module>ecom-cart</module>
         <module>ecom-core</module>
+        <module>ecom-product</module>
     </modules>
 
 

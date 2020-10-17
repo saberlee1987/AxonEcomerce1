@@ -27,23 +27,24 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
     @ResponseBody
-    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
-//        try {
+    public OrderCreationStatus createOrder(@RequestBody OrderDto orderDto) {
+        try {
             OrderCreatedCommand orderCreatedCommand = new OrderCreatedCommand();
             orderCreatedCommand.setUserId(orderDto.getUserId());
             orderCreatedCommand.setLineItems(orderDto.getLineItems());
-             commandGateway.sendAndWait(orderCreatedCommand);
-             return ResponseEntity.noContent().build();
-//        } catch (CommandExecutionException ex) {
-//            Throwable e = ex.getCause();
-//            log.error("Error while creating new Order ==> {} ", e.getMessage());
-//            if (e instanceof OutOfStockException) {
-//                return OrderCreationStatus.OUT_OF_STOCK;
-//            } else {
-//                return OrderCreationStatus.FAILED;
-//            }
-//        }
+            commandGateway.sendAndWait(orderCreatedCommand);
+            return OrderCreationStatus.SUCCESS;
+        } catch (CommandExecutionException ex) {
+            Throwable e = ex.getCause();
+            log.error("Error while creating new Order ==> {} ", e.getMessage());
+            if (e instanceof OutOfStockException) {
+                return OrderCreationStatus.OUT_OF_STOCK;
+            } else {
+                return OrderCreationStatus.FAILED;
+            }
+        }
     }
+
 
     @RequestMapping(value = "/{orderId}", method = RequestMethod.DELETE)
     @Transactional
