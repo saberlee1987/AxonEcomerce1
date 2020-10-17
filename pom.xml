@@ -15,6 +15,7 @@
         <module>ecom-cart</module>
         <module>ecom-core</module>
         <module>ecom-product</module>
+        <module>ecom-delivery</module>
     </modules>
 
 
