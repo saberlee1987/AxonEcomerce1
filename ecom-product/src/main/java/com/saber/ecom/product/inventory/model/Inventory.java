@@ -1,6 +1,5 @@
 package com.saber.ecom.product.inventory.model;
 
-import ch.qos.logback.core.joran.spi.NoAutoStart;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

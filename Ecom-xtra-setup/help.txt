@@ -1,0 +1,3 @@
+mongoimport --db ecom --jsonArray --collection productCategory --file ./productCategory.json
+mongoimport --db ecom --jsonArray --collection product --file ./products.json
+mongoimport --db ecom --jsonArray --collection inventory --file ./inventory.json
