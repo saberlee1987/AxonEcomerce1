@@ -18,6 +18,7 @@
         <module>ecom-delivery</module>
         <module>ecom-history</module>
         <module>ecom-shipping</module>
+        <module>ecom-user</module>
     </modules>
 
 
