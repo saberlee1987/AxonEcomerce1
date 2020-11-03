@@ -19,6 +19,7 @@
         <module>ecom-history</module>
         <module>ecom-shipping</module>
         <module>ecom-user</module>
+        <module>ecom-gateway</module>
     </modules>
 
 
