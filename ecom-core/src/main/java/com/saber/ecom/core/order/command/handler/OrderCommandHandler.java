@@ -12,27 +12,29 @@ import com.saber.ecom.core.order.model.ProductStockOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.repository.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
 import java.util.Date;
 import java.util.Random;
 
 @Component
 @Slf4j
 public class OrderCommandHandler {
-    @Qualifier(value = "orderRepository")
-    @Autowired
-    private Repository<Order> orderRepository;
-    @Qualifier(value = "inventoryRepository")
-    @Autowired
-    private Repository<Inventory> inventoryRepository;
+    private final Repository<Order> orderRepository;
+    private final Repository<Inventory> inventoryRepository;
+
+    public OrderCommandHandler(@Qualifier(value = "orderRepository") Repository<Order> orderRepository,
+                               @Qualifier(value = "inventoryRepository") Repository<Inventory> inventoryRepository) {
+        this.orderRepository = orderRepository;
+        this.inventoryRepository = inventoryRepository;
+    }
 
 
     @CommandHandler
     public void handleNewOrder(OrderCreatedCommand orderCreatedCommand) {
         Random random = new Random();
-        log.debug("OrderCreatedCommand/create new order is executing ====>" + orderCreatedCommand);
+        log.info("OrderCreatedCommand/create new order is executing ====>" + orderCreatedCommand);
         Order order = new Order();
         order.setId((long) random.nextInt());
         order.setOrderDate(new Date());
@@ -65,7 +67,7 @@ public class OrderCommandHandler {
 
     @CommandHandler
     public void handleOrderCancel(OrderCancelCommand orderCancelCommand) {
-        log.debug("Order Cancelling Command is executing =====>{}", orderCancelCommand.getOrderId());
+        log.info("Order Cancelling Command is executing =====>{}", orderCancelCommand.getOrderId());
         Order order = orderRepository.load(orderCancelCommand.getOrderId());
         order.cancelOrder();
         rollbackInventory(order);
@@ -73,7 +75,7 @@ public class OrderCommandHandler {
 
     @CommandHandler
     public void handleOrderDeliveryFailure(OrderDeliveryFailureRollbackCommand orderDeliveryFailureRollbackCommand) {
-        log.debug("Order delivery failure command is executing ====> {}", orderDeliveryFailureRollbackCommand.getOrderId());
+        log.info("Order delivery failure command is executing ====> {}", orderDeliveryFailureRollbackCommand.getOrderId());
         Order order = orderRepository.load(orderDeliveryFailureRollbackCommand.getOrderId());
         order.updateOrderStatus(OrderStatus.DELIVERY_FAILED);
         rollbackInventory(order);

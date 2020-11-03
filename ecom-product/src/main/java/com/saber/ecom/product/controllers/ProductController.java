@@ -22,7 +22,7 @@ public class ProductController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") String id, @RequestBody Product product) {
-        log.debug("Updating product  with id ====> {}", id);
+        log.info("Updating product  with id ====> {}", id);
         Optional<Product> currentProductOptional = productRepository.findById(id);
         if (!currentProductOptional.isPresent()) {
             log.debug("Product with id ====> {} not found", id);
@@ -42,7 +42,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        log.debug("Creating Product with Code ===> {} ", product.getCode());
+        log.info("Creating Product with Code ===> {} ", product.getCode());
         List<Product> products = productRepository.findByCode(product.getCode());
         if (products.size() > 0) {
             log.debug("A Product with Code {} Already Exist", product.getCode());
@@ -60,7 +60,7 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable(value = "id") String id) {
-        log.debug("Fetching Product with id ===> {}", id);
+        log.info("Fetching Product with id ===> {}", id);
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent()) {
             log.debug("Product With id ===> {} Not Found", id);
@@ -71,14 +71,14 @@ public class ProductController {
 
     @GetMapping(params = "category")
     public ResponseEntity<List<Product>> getProductWithCategoryName(@RequestParam(name = "category") String category) {
-        log.debug("Find Product With Category ===> {}", category);
+        log.info("Find Product With Category ===> {}", category);
         List<Product> products = this.productRepository.findByProductCategoryName(category);
         return ResponseEntity.ok(products);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Product> deleteProductById(@PathVariable(name = "id") String id) {
-        log.debug("Fetching Product With id ==> {} ", id);
+        log.info("Fetching Product With id ==> {} ", id);
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent()) {
             log.debug("Product with id ==> {} No Found", id);

@@ -29,44 +29,47 @@ import org.springframework.stereotype.Component;
 public class OrderProcessSaga extends AbstractAnnotatedSaga {
 
     private Long orderId;
-    @Autowired
-    @Qualifier(value = "commandGateway")
     private transient CommandGateway commandGateway;
+
+    @Autowired
+    public OrderProcessSaga(@Qualifier(value = "commandGateway") CommandGateway commandGateway) {
+        this.commandGateway = commandGateway;
+    }
 
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handleOrderCreationEvent(OrderCreatedEvent orderCreatedEvent) {
-        log.debug("New Order created event request received ====> {}", orderCreatedEvent.getOrderId());
+        log.info("New Order created event request received ====> {}", orderCreatedEvent.getOrderId());
         this.orderId = orderCreatedEvent.getOrderId();
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void handleOrderShippedEvent(OrderShippedEvent orderShippedEvent) {
-        log.debug("OrderProcessSaga.handleOrderShippedEvent ");
-        log.debug("Order shipping event request received for order =====> {}", orderShippedEvent.getOrderId());
+        log.info("OrderProcessSaga.handleOrderShippedEvent ");
+        log.info("Order shipping event request received for order =====> {}", orderShippedEvent.getOrderId());
         commandGateway.send(new OrderUpdateCommand(orderShippedEvent.getOrderId(), OrderStatus.SHIPPED));
     }
 
     @EndSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handleOrderCanceledEvent(OrderCancelEvent orderCancelEvent) {
-        log.debug("EndSaga ===> OrderProcessSaga.handleOrderCanceledEvent");
-        log.debug("Order cancelled by the user ====> {}", orderCancelEvent.getOrderId());
+        log.info("EndSaga ===> OrderProcessSaga.handleOrderCanceledEvent");
+        log.info("Order cancelled by the user ====> {}", orderCancelEvent.getOrderId());
     }
 
     @EndSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handleOrderDeliverEvent(OrderDeliveredEvent orderDeliveredEvent) {
-        log.debug("EndSaga : OrderProcessSaga.handleOrderDeliverEvent");
-        log.debug("Order Delivered event request received for order ====> {}", orderDeliveredEvent.getOrderId());
+        log.info("EndSaga : OrderProcessSaga.handleOrderDeliverEvent");
+        log.info("Order Delivered event request received for order ====> {}", orderDeliveredEvent.getOrderId());
         commandGateway.send(new OrderUpdateCommand(orderDeliveredEvent.getOrderId(), OrderStatus.DELIVERED));
     }
 
     @EndSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handleOrderDeliveryFailureEvent(OrderDeliveryFailedEvent orderDeliveryFailedEvent){
-        log.debug("EndSaga : OrderProcessSaga.handleOrderDeliveryFailureEvent");
-        log.debug("Order delivery failed for Order ====> {}",orderDeliveryFailedEvent.getOrderId());
+        log.info("EndSaga : OrderProcessSaga.handleOrderDeliveryFailureEvent");
+        log.info("Order delivery failed for Order ====> {}",orderDeliveryFailedEvent.getOrderId());
         commandGateway.send(new OrderDeliveryFailureRollbackCommand(orderDeliveryFailedEvent.getOrderId(),
                 orderDeliveryFailedEvent.getFailureReason()));
       }

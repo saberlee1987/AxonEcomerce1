@@ -1,6 +1,6 @@
 <configuration debug="true" scan="true" scanPeriod="2 minutes">
 
-    <property name="APPLICATION_LEVEL" value="DEBUG"/>
+    <property name="APPLICATION_LEVEL" value="INFO"/>
     <property name="STACK_TRACE_LEVEL_COUNT" value="5"/>
     <property name="LOG_DIR" value="${log.dir:-/var/log/axon}"/>
     <property name="APP_NAME" value="ecom-cart-service"/>

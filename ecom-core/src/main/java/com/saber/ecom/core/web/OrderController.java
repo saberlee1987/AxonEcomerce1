@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class OrderController {
 
-    @Autowired
-    @Qualifier(value = "commandGateway")
-    private CommandGateway commandGateway;
+    private final CommandGateway commandGateway;
+
+    public OrderController(@Qualifier(value = "commandGateway") CommandGateway commandGateway) {
+        this.commandGateway = commandGateway;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional

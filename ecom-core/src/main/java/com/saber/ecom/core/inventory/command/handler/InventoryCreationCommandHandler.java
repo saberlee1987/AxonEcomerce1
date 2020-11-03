@@ -15,14 +15,16 @@ import java.util.Random;
 @Slf4j
 public class InventoryCreationCommandHandler {
 
-    @Autowired
-    @Qualifier(value = "inventoryRepository")
-    private Repository<Inventory> inventoryRepository;
+    private final Repository<Inventory> inventoryRepository;
+
+    public InventoryCreationCommandHandler(@Qualifier(value = "inventoryRepository") Repository<Inventory> inventoryRepository) {
+        this.inventoryRepository = inventoryRepository;
+    }
 
     @CommandHandler
     public void handleInventoryCreation(InventoryCreatedCommand inventoryCreatedCommand) {
         int id = new Random().nextInt();
-        log.debug("InventoryCreationCommandHandler / Create new Inventory is executing =========>id ==" + id);
+        log.info("InventoryCreationCommandHandler / Create new Inventory is executing =========>id ==" + id);
         Inventory inventory = new Inventory((long) id, inventoryCreatedCommand.getSku(), inventoryCreatedCommand.getQuantity());
         inventoryRepository.add(inventory);
     }

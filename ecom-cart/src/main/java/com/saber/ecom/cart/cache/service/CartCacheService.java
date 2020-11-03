@@ -25,14 +25,14 @@ public class CartCacheService {
     public CustomerDto getCustomerDto(String userId) {
         Cache.ValueWrapper value = cacheManager.getCache("customerCache").get(userId);
         if (value != null) {
-            log.debug("Returning cache for the customer =====> " + userId);
-            log.debug("Customer DTO ======> "+value.get());
+            log.info("Returning cache for the customer =====> " + userId);
+            log.info("Customer DTO ======> "+value.get());
             return (CustomerDto) value.get();
         } else {
-            log.debug("Customer is not existing the cache ==============> " + userId);
+            log.info("Customer is not existing the cache ==============> " + userId);
             CustomerDto userCartDto = new CustomerDto(userId);
             updateUserCartInCache(userCartDto);
-            log.debug("Customer is added to the cache ==========> " + userId);
+            log.info("Customer is added to the cache ==========> " + userId);
             return userCartDto;
         }
     }
